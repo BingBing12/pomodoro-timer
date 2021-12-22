@@ -29,6 +29,8 @@ def start_timer():
     work = WORK_MIN * 60
     rest = SHORT_BREAK_MIN * 60
     long_rest = LONG_BREAK_MIN * 60
+    window.attributes('-topmost', True)
+    window.attributes('-topmost', False)
     global reps
     if reps % 8 == 0:
         heading.config(text="BREAK", fg=RED)
