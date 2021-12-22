@@ -1,5 +1,4 @@
 from tkinter import *
-import time
 import math
 
 # ---------------------------- CONSTANTS ------------------------------- #
@@ -11,16 +10,25 @@ FONT_NAME = "Courier"
 WORK_MIN = 25
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
+timer = None
 
 
 # ---------------------------- TIMER RESET ------------------------------- #
 
-# ---------------------------- TIMER MECHANISM ------------------------------- # 
+def reset():
+    global timer
+    timer = window.after_cancel(timer)
+    heading.config(text="Timer", fg=GREEN)
+    check.config(text="")
+    canvas.itemconfig(time_text, text="00:00")
+
+
+# ---------------------------- TIMER MECHANISM ------------------------------- #
 
 def start_timer():
-    work = 5  # WORK_MIN * 60
-    rest = 3  # SHORT_BREAK_MIN * 60
-    long_rest = 4  # LONG_BREAK_MIN * 60
+    work = WORK_MIN * 60
+    rest = SHORT_BREAK_MIN * 60
+    long_rest = LONG_BREAK_MIN * 60
     global reps
     if reps % 8 == 0:
         heading.config(text="BREAK", fg=RED)
@@ -46,7 +54,8 @@ def countdown(count):
     else:
         canvas.itemconfig(time_text, text=f"{minutes}:{seconds}")
     if count > 0:
-        window.after(1000, countdown, count - 1)
+        global timer
+        timer = window.after(1000, countdown, count - 1)
     else:
         global reps
         reps += 1
@@ -71,7 +80,7 @@ canvas.grid(row=1, column=1)
 start_button = Button(text="Start", command=start_timer)
 start_button.grid(row=3, column=0)
 
-reset_button = Button(text="Reset")
+reset_button = Button(text="Reset", command=reset)
 reset_button.grid(row=3, column=2)
 
 check = Label(text="", fg=GREEN, bg=YELLOW, font=20)
