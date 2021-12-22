@@ -18,17 +18,20 @@ LONG_BREAK_MIN = 20
 # ---------------------------- TIMER MECHANISM ------------------------------- # 
 
 def start_timer():
-    work = 5  # 25 * 60
-    rest = 3  # 5 * 60
-    long_rest = 4  # 20 * 60
+    work = 5  # WORK_MIN * 60
+    rest = 3  # SHORT_BREAK_MIN * 60
+    long_rest = 4  # LONG_BREAK_MIN * 60
     global reps
     if reps % 8 == 0:
+        heading.config(text="BREAK", fg=RED)
         countdown(long_rest)
         check.config(text="")
     elif reps % 2 == 0:
+        heading.config(text="BREAK", fg=PINK)
         check["text"] += "✔"
         countdown(rest)
     else:
+        heading.config(text="WORK", fg=GREEN)
         countdown(work)
 
 
